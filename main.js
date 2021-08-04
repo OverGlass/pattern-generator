@@ -85,7 +85,7 @@ async function makeMotif(path, width, height, offset) {
 await Deno.writeTextFile(
   "./testgen.svg",
   await makeMotif("./test.svg", 3000, 3000, {
-    x: 100,
-    y: 180,
+    x: 120,
+    y: 200,
   })
 );
