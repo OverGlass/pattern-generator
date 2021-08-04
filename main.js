@@ -35,19 +35,22 @@ async function getSvg(path) {
   return await Deno.readTextFile(path);
 }
 
-function calcCoords(motifSize, newSvgSize) {
+function calcCoords(motifSize, newSvgSize, offset) {
   const { width, height } = motifSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
-  const nbOfColumn = Math.floor(newWidth / width);
-  const nbOfRow = Math.floor(newHeight / height);
-  console.log(width, newWidth);
+  const nbOfColumn = Math.floor(
+    newWidth / (width - offset.x)
+  );
+  const nbOfRow = Math.floor(
+    newHeight / (height - offset.y)
+  );
   const coords = [...Array(nbOfRow).keys()]
     .reduce((acc, y) => {
       return [
         ...acc,
         [...Array(nbOfColumn).keys()].map(i => ({
-          x: i * width,
-          y: height * y,
+          x: i * width + (i == 0 ? 0 : -offset.x * i),
+          y: height * y + (y == 0 ? 0 : -offset.y * y),
         })),
       ];
     }, [])
@@ -55,11 +58,18 @@ function calcCoords(motifSize, newSvgSize) {
   return coords;
 }
 
-async function makeMotif(path, width, height) {
+async function makeMotif(path, width, height, offset) {
   const motif = await getSvg(path);
   const motifSize = getSvgSize(motif);
   const b64 = convertSvgToBase64(motif);
-  const coords = calcCoords(motifSize, { width, height });
+  const coords = calcCoords(
+    motifSize,
+    {
+      width,
+      height,
+    },
+    offset
+  );
   console.log(coords);
   const generatePattern = coords.map(coord =>
     createImageSvgTag(b64, coord, motifSize)
@@ -74,5 +84,8 @@ async function makeMotif(path, width, height) {
 
 await Deno.writeTextFile(
   "./testgen.svg",
-  await makeMotif("./test.svg", 3000, 3000)
+  await makeMotif("./test.svg", 3000, 3000, {
+    x: 100,
+    y: 180,
+  })
 );
