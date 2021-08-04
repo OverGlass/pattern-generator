@@ -39,18 +39,24 @@ function calcCoords(motifSize, newSvgSize, offset) {
   const { width, height } = motifSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
   const nbOfColumn = Math.floor(
-    newWidth / (width - offset.x)
+    (newWidth + width) / (width - offset.x)
   );
   const nbOfRow = Math.floor(
-    newHeight / (height - offset.y)
+    (newHeight + height) / (height - offset.y)
   );
   const coords = [...Array(nbOfRow).keys()]
     .reduce((acc, y) => {
       return [
         ...acc,
         [...Array(nbOfColumn).keys()].map(i => ({
-          x: i * width + (i == 0 ? 0 : -offset.x * i),
-          y: height * y + (y == 0 ? 0 : -offset.y * y),
+          x:
+            i * width +
+            (i == 0 ? 0 : -offset.x * i) +
+            -offset.x,
+          y:
+            height * y +
+            (y == 0 ? 0 : -offset.y * y) +
+            -offset.y,
         })),
       ];
     }, [])
