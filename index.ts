@@ -80,7 +80,8 @@ function createNewSvg(
   return `
     <svg version="1.1"
       baseProfile="full"
-      width="${width}px" height="${height}px"
+      width="100%" height="100%"
+      viewBox="0 0 ${width} ${height}"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg">
       ${content}
@@ -98,9 +99,8 @@ function createImageSvgTag(
     <image 
       x="${coords.x}" 
       y="${coords.y}" 
-      width="100%" 
-      height="100%"
-      viewBox="0 0 ${sizes.width} ${sizes.height}"
+      width="${sizes.width}" 
+      height="${sizes.height}"
       xlink:href="${base64Svg}"/>
   `;
 }
