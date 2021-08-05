@@ -15,7 +15,7 @@ import { resolve } from "path";
       "utf8"
     );
 
-    const pattern = makePattern(svg, 800, 800, 200);
+    const pattern = makePattern(svg, 1600, 1200, 100);
 
     await writeFile(
       resolve(__dirname, `./generateSvgs/${file}`),
