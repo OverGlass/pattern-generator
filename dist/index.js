@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function makePattern(svg, width, height, offset = { x: 0, y: 0 }) {
+function makePattern(svg, width, height) {
     const pattern = svg;
     const patternSize = getSvgSize(pattern);
     const b64 = convertSvgToBase64(pattern);
     const coords = calcCoords(patternSize, {
         width,
         height,
-    }, offset);
+    });
     const generatePattern = coords.map(coord => createImageSvgTag(b64, coord, patternSize));
     const newSvg = createNewSvg(width, height, generatePattern.join("\n"));
     return newSvg;
@@ -28,20 +28,16 @@ function convertSvgToBase64(svg) {
     const b64 = Buffer.from(svg).toString("base64");
     return `data:image/svg+xml;base64,${b64}`;
 }
-function calcCoords(patternSize, newSvgSize, offset) {
+function calcCoords(patternSize, newSvgSize) {
     const { width, height } = patternSize;
     const { width: newWidth, height: newHeight } = newSvgSize;
-    const nbOfColumn = Math.floor((newWidth + width) / (width - offset.x));
-    const nbOfRow = Math.floor((newHeight + height) / (height - offset.y));
+    const nbOfColumn = Math.floor((newWidth + width * 2) / width);
+    const nbOfRow = Math.floor((newHeight + height * 2) / height);
     const coords = [...Array(nbOfRow).keys()]
         .map(y => {
         return [...Array(nbOfColumn).keys()].map(i => ({
-            x: i * width +
-                (i == 0 ? 0 : -offset.x * i) +
-                -offset.x,
-            y: height * y +
-                (y == 0 ? 0 : -offset.y * y) +
-                -offset.y,
+            x: i * width - width / 2,
+            y: height * y - height / 2,
         }));
     })
         .flat();
