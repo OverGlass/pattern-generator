@@ -1,3 +1,4 @@
+import { optimize } from "svgo";
 type coords = {
   x: number;
   y: number;
@@ -13,7 +14,7 @@ export default function makePattern(
   width: number,
   height: number
 ) {
-  const pattern = svg;
+  const pattern = optimize(svg).data;
   const patternSize = getSvgSize(pattern);
   const b64 = convertSvgToBase64(pattern);
   const coords = calcCoords(patternSize, {

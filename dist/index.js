@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const svgo_1 = require("svgo");
 function makePattern(svg, width, height) {
-    const pattern = svg;
+    const pattern = svgo_1.optimize(svg).data;
     const patternSize = getSvgSize(pattern);
     const b64 = convertSvgToBase64(pattern);
     const coords = calcCoords(patternSize, {
