@@ -18,10 +18,10 @@ function getSvgSize(svg) {
     const viewBox = regex.exec(svg);
     if (!viewBox)
         throw Error(`Cannot find viewBox in svg`);
-    const viewBoxArr = viewBox[1].split(/\s+/);
+    const viewBoxArr = viewBox[1].split(/\s+/).map(Number);
     return {
-        width: Number(viewBoxArr[2]),
-        height: Number(viewBoxArr[3]),
+        width: 500,
+        height: (viewBoxArr[3] * 500) / viewBoxArr[2],
     };
 }
 function convertSvgToBase64(svg) {
