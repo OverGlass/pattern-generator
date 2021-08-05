@@ -1,0 +1,21 @@
+{
+  "name": "svg-pattern",
+  "version": "1.0.0",
+  "description": "Take a SVG pattern and repeat it on a new SVG Document",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:OverGlass/svg-pattern.git",
+  "author": "Antonin Carlin <antonin.carlin@icloud.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx tsc && npx cpx './tests/*.svg' './dist/tests'",
+    "test": "npm run build && node dist/tests/test.js"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@types/node": "^16.4.12"
+  }
+}
