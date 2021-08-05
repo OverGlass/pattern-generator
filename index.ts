@@ -11,20 +11,15 @@ type sizes = {
 export default function makePattern(
   svg: string,
   width: number,
-  height: number,
-  offset: coords = { x: 0, y: 0 }
+  height: number
 ) {
   const pattern = svg;
   const patternSize = getSvgSize(pattern);
   const b64 = convertSvgToBase64(pattern);
-  const coords = calcCoords(
-    patternSize,
-    {
-      width,
-      height,
-    },
-    offset
-  );
+  const coords = calcCoords(patternSize, {
+    width,
+    height,
+  });
   const generatePattern = coords.map(coord =>
     createImageSvgTag(b64, coord, patternSize)
   );
@@ -54,28 +49,21 @@ function convertSvgToBase64(svg: string): string {
 
 function calcCoords(
   patternSize: sizes,
-  newSvgSize: sizes,
-  offset: coords
+  newSvgSize: sizes
 ): coords[] {
   const { width, height } = patternSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
   const nbOfColumn = Math.floor(
-    (newWidth + width) / (width - offset.x)
+    (newWidth + width * 2) / (width - offset.x)
   );
   const nbOfRow = Math.floor(
-    (newHeight + height) / (height - offset.y)
+    (newHeight + height * 2) / (height - offset.y)
   );
   const coords = [...Array(nbOfRow).keys()]
     .map(y => {
       return [...Array(nbOfColumn).keys()].map(i => ({
-        x:
-          i * width +
-          (i == 0 ? 0 : -offset.x * i) +
-          -offset.x,
-        y:
-          height * y +
-          (y == 0 ? 0 : -offset.y * y) +
-          -offset.y,
+        x: i * width,
+        y: height * y,
       }));
     })
     .flat();
