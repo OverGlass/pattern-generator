@@ -98,8 +98,9 @@ function createImageSvgTag(
     <image 
       x="${coords.x}" 
       y="${coords.y}" 
-      width="${sizes.width}" 
-      height="${sizes.height}" 
+      width="100%" 
+      height="100%"
+      viewBox="0 0 ${sizes.width} ${sizes.height}"
       xlink:href="${base64Svg}"/>
   `;
 }
