@@ -19,7 +19,7 @@ export default function makePattern(
     height,
     createImageSvgTag(b64, patternSize)
   );
-  return newSvg;
+  return optimize(newSvg).data;
 }
 
 function getSvgSize(svg: string, patternWidth: number) {
