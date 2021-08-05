@@ -93,7 +93,6 @@ function createNewSvg(
     </svg>
 
   `;
-  // width="${width}px" height="${height}px"
 }
 
 function createImageSvgTag(
