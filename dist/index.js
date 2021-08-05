@@ -6,7 +6,7 @@ function makePattern(svg, width, height, patternWidth = 500) {
     const patternSize = getSvgSize(pattern, patternWidth);
     const b64 = convertSvgToBase64(pattern);
     const newSvg = createNewSvg(width, height, createImageSvgTag(b64, patternSize));
-    return newSvg;
+    return svgo_1.optimize(newSvg).data;
 }
 exports.default = makePattern;
 function getSvgSize(svg, patternWidth) {
