@@ -53,12 +53,8 @@ function calcCoords(
 ): coords[] {
   const { width, height } = patternSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
-  const nbOfColumn = Math.floor(
-    (newWidth + width * 2) / (width - offset.x)
-  );
-  const nbOfRow = Math.floor(
-    (newHeight + height * 2) / (height - offset.y)
-  );
+  const nbOfColumn = Math.floor(newWidth + width * 2);
+  const nbOfRow = Math.floor(newHeight + height * 2);
   const coords = [...Array(nbOfRow).keys()]
     .map(y => {
       return [...Array(nbOfColumn).keys()].map(i => ({
