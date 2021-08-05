@@ -1,8 +1,4 @@
 import { optimize } from "svgo";
-type coords = {
-  x: number;
-  y: number;
-};
 
 type sizes = {
   width: number;
