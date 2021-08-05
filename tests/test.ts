@@ -1,4 +1,4 @@
-import { makePattern } from "../index";
+import makePattern from "../index";
 import { writeFile, readFile } from "fs/promises";
 import { resolve } from "path";
 (async () => {

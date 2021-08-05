@@ -8,7 +8,7 @@ type sizes = {
   height: number;
 };
 
-export function makePattern(
+export default function makePattern(
   svg: string,
   width: number,
   height: number,
