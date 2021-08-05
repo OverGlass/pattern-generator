@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makePattern = void 0;
 function makePattern(svg, width, height, offset = { x: 0, y: 0 }) {
     const pattern = svg;
     const patternSize = getSvgSize(pattern);
@@ -13,7 +12,7 @@ function makePattern(svg, width, height, offset = { x: 0, y: 0 }) {
     const newSvg = createNewSvg(width, height, generatePattern.join("\n"));
     return newSvg;
 }
-exports.makePattern = makePattern;
+exports.default = makePattern;
 function getSvgSize(svg) {
     const regex = /<svg[^>]*viewBox="([^"]*)"/;
     const viewBox = regex.exec(svg);

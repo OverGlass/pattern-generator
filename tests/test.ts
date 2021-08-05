@@ -1,16 +1,25 @@
 import makePattern from "../index";
-import { writeFile, readFile } from "fs/promises";
+import { writeFile, readFile, readdir } from "fs/promises";
 import { resolve } from "path";
 (async () => {
-  const svg = await readFile(
-    resolve(__dirname, "./test.svg"),
-    "utf8"
-  );
+  // get all the .svg files in this directory
+  const svgFiles = (
+    await readdir(resolve(__dirname, "./"))
+  ).filter(file => file.endsWith(".svg"));
+  console.log(svgFiles);
 
-  const pattern = makePattern(svg, 3000, 3000);
+  // create a pattern from each file
+  svgFiles.forEach(async file => {
+    const svg = await readFile(
+      resolve(__dirname, `./${file}`),
+      "utf8"
+    );
 
-  await writeFile(
-    resolve(__dirname, "./testgen.svg"),
-    pattern
-  );
+    const pattern = makePattern(svg, 3000, 3000);
+
+    await writeFile(
+      resolve(__dirname, `./generateSvgs/${file}`),
+      pattern
+    );
+  });
 })();
