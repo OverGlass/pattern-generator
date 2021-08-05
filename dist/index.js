@@ -5,12 +5,7 @@ function makePattern(svg, width, height, patternWidth = 500) {
     const pattern = svgo_1.optimize(svg).data;
     const patternSize = getSvgSize(pattern, patternWidth);
     const b64 = convertSvgToBase64(pattern);
-    const coords = calcCoords(patternSize, {
-        width,
-        height,
-    });
-    const generatePattern = coords.map(coord => createImageSvgTag(b64, coord, patternSize));
-    const newSvg = createNewSvg(width, height, generatePattern.join("\n"));
+    const newSvg = createNewSvg(width, height, createImageSvgTag(b64, patternSize));
     return newSvg;
 }
 exports.default = makePattern;
@@ -29,21 +24,6 @@ function convertSvgToBase64(svg) {
     const b64 = Buffer.from(svg).toString("base64");
     return `data:image/svg+xml;base64,${b64}`;
 }
-function calcCoords(patternSize, newSvgSize) {
-    const { width, height } = patternSize;
-    const { width: newWidth, height: newHeight } = newSvgSize;
-    const nbOfColumn = Math.floor((newWidth + width) / width);
-    const nbOfRow = Math.floor((newHeight + height) / height);
-    const coords = [...Array(nbOfRow).keys()]
-        .map(y => {
-        return [...Array(nbOfColumn).keys()].map(i => ({
-            x: i * width - width / 2,
-            y: height * y - height / 2,
-        }));
-    })
-        .flat();
-    return coords;
-}
 function createNewSvg(width, height, content) {
     return `
     <svg version="1.1"
@@ -53,27 +33,31 @@ function createNewSvg(width, height, content) {
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg">
       <defs>
-          <rect id="rect" width="100%" height="100%" fill="none" />
-          <clipPath id="clip">
-              <use xlink:href="#rect"/>
-          </clipPath>
+        <rect id="rect" width="100%" height="100%" fill="none" />
+        <clipPath id="clip">
+            <use xlink:href="#rect"/>
+        </clipPath>
+      </defs>
+      <defs>
+        ${content}
       </defs>
       <use xlink:href="#rect"/>
       <g clip-path="url(#clip)">
-        ${content}
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#polka-dots)"></rect>
       </g>
     </svg>
 
   `;
 }
-function createImageSvgTag(base64Svg, coords, sizes) {
+function createImageSvgTag(base64Svg, sizes) {
     return `
-    <image 
-      x="${coords.x}" 
-      y="${coords.y}" 
-      width="${sizes.width}" 
-      height="${sizes.height}"
-      xlink:href="${base64Svg}"/>
+    <pattern id="polka-dots" x="0" y="0" width="${sizes.width}" height="${sizes.height}" patternUnits="userSpaceOnUse">
+      <image 
+        width="${sizes.width}" 
+        height="${sizes.height}"
+        xlink:href="${base64Svg}"/>
+    </pattern>
+
   `;
 }
 //# sourceMappingURL=index.js.map
