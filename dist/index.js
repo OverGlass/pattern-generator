@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makePattern = void 0;
-const promises_1 = require("fs/promises");
-async function makePattern(path, width, height, offset = { x: 0, y: 0 }) {
-    const pattern = await getSvg(path);
+function makePattern(svg, width, height, offset = { x: 0, y: 0 }) {
+    const pattern = svg;
     const patternSize = getSvgSize(pattern);
     const b64 = convertSvgToBase64(pattern);
     const coords = calcCoords(patternSize, {
@@ -15,9 +14,6 @@ async function makePattern(path, width, height, offset = { x: 0, y: 0 }) {
     return newSvg;
 }
 exports.makePattern = makePattern;
-async function getSvg(path) {
-    return await promises_1.readFile(path, "utf8");
-}
 function getSvgSize(svg) {
     const regex = /<svg[^>]*viewBox="([^"]*)"/;
     const viewBox = regex.exec(svg);

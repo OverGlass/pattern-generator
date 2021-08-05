@@ -10,13 +10,14 @@ type sizes = {
   height: number;
 };
 
-export async function makePattern(
-  path: string,
+export function makePattern(
+  // path: string,
+  svg: string,
   width: number,
   height: number,
   offset: coords = { x: 0, y: 0 }
 ) {
-  const pattern = await getSvg(path);
+  const pattern = svg;
   const patternSize = getSvgSize(pattern);
   const b64 = convertSvgToBase64(pattern);
   const coords = calcCoords(
@@ -38,9 +39,9 @@ export async function makePattern(
   return newSvg;
 }
 
-async function getSvg(path: string) {
-  return await readFile(path, "utf8");
-}
+// async function getSvg(path: string) {
+//   return await readFile(path, "utf8");
+// }
 
 function getSvgSize(svg: string) {
   const regex = /<svg[^>]*viewBox="([^"]*)"/;

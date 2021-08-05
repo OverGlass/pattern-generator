@@ -1,12 +1,14 @@
 import { makePattern } from "../index";
-import { writeFile } from "fs/promises";
+import { writeFile, readFile } from "fs/promises";
 import { resolve } from "path";
 (async () => {
-  const pattern = await makePattern(
+  const svg = await readFile(
     resolve(__dirname, "./test.svg"),
-    3000,
-    3000
+    "utf8"
   );
+
+  const pattern = makePattern(svg, 3000, 3000);
+
   await writeFile(
     resolve(__dirname, "./testgen.svg"),
     pattern
