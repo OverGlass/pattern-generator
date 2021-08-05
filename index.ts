@@ -1,5 +1,3 @@
-import { readFile } from "fs/promises";
-
 type coords = {
   x: number;
   y: number;
@@ -11,7 +9,6 @@ type sizes = {
 };
 
 export function makePattern(
-  // path: string,
   svg: string,
   width: number,
   height: number,
@@ -38,10 +35,6 @@ export function makePattern(
   );
   return newSvg;
 }
-
-// async function getSvg(path: string) {
-//   return await readFile(path, "utf8");
-// }
 
 function getSvgSize(svg: string) {
   const regex = /<svg[^>]*viewBox="([^"]*)"/;
