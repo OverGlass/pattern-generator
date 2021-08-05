@@ -55,12 +55,8 @@ function calcCoords(
 ): coords[] {
   const { width, height } = patternSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
-  const nbOfColumn = Math.floor(
-    (newWidth + width * 2) / width
-  );
-  const nbOfRow = Math.floor(
-    (newHeight + height * 2) / height
-  );
+  const nbOfColumn = Math.floor((newWidth + width) / width);
+  const nbOfRow = Math.floor((newHeight + height) / height);
   const coords = [...Array(nbOfRow).keys()]
     .map(y => {
       return [...Array(nbOfColumn).keys()].map(i => ({
@@ -88,6 +84,7 @@ function createNewSvg(
     </svg>
 
   `;
+  // width="${width}px" height="${height}px"
 }
 
 function createImageSvgTag(

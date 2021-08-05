@@ -8,7 +8,7 @@ const path_1 = require("path");
     console.log(svgFiles);
     svgFiles.forEach(async (file) => {
         const svg = await promises_1.readFile(path_1.resolve(__dirname, `./${file}`), "utf8");
-        const pattern = index_1.default(svg, 800, 800, 50);
+        const pattern = index_1.default(svg, 800, 800, 200);
         await promises_1.writeFile(path_1.resolve(__dirname, `./generateSvgs/${file}`), pattern);
     });
 })();
