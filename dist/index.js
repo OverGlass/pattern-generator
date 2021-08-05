@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const svgo_1 = require("svgo");
-function makePattern(svg, width, height) {
+function makePattern(svg, width, height, patternWidth = 500) {
     const pattern = svgo_1.optimize(svg).data;
-    const patternSize = getSvgSize(pattern);
+    const patternSize = getSvgSize(pattern, patternWidth);
     const b64 = convertSvgToBase64(pattern);
     const coords = calcCoords(patternSize, {
         width,
@@ -14,15 +14,15 @@ function makePattern(svg, width, height) {
     return newSvg;
 }
 exports.default = makePattern;
-function getSvgSize(svg) {
+function getSvgSize(svg, patternWidth) {
     const regex = /<svg[^>]*viewBox="([^"]*)"/;
     const viewBox = regex.exec(svg);
     if (!viewBox)
         throw Error(`Cannot find viewBox in svg`);
     const viewBoxArr = viewBox[1].split(/\s+/).map(Number);
     return {
-        width: 500,
-        height: (viewBoxArr[3] * 500) / viewBoxArr[2],
+        width: patternWidth,
+        height: (viewBoxArr[3] * patternWidth) / viewBoxArr[2],
     };
 }
 function convertSvgToBase64(svg) {

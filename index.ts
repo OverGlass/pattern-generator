@@ -12,10 +12,11 @@ type sizes = {
 export default function makePattern(
   svg: string,
   width: number,
-  height: number
+  height: number,
+  patternWidth: number = 500
 ) {
   const pattern = optimize(svg).data;
-  const patternSize = getSvgSize(pattern);
+  const patternSize = getSvgSize(pattern, patternWidth);
   const b64 = convertSvgToBase64(pattern);
   const coords = calcCoords(patternSize, {
     width,
@@ -32,14 +33,14 @@ export default function makePattern(
   return newSvg;
 }
 
-function getSvgSize(svg: string) {
+function getSvgSize(svg: string, patternWidth: number) {
   const regex = /<svg[^>]*viewBox="([^"]*)"/;
   const viewBox = regex.exec(svg);
   if (!viewBox) throw Error(`Cannot find viewBox in svg`);
   const viewBoxArr = viewBox[1].split(/\s+/).map(Number);
   return {
-    width: 500,
-    height: (viewBoxArr[3] * 500) / viewBoxArr[2],
+    width: patternWidth,
+    height: (viewBoxArr[3] * patternWidth) / viewBoxArr[2],
   };
 }
 
