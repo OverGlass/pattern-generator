@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const svgo_1 = require("svgo");
-function makePattern(svg, width, height, patternWidth = 500, patternOffset = { x: 0, y: 0 }) {
+function makePattern(svg, width, height, patternWidth = 500, patternOffset = { x: 0, y: 0 }, backgroundColor = "white") {
     const pattern = svgo_1.optimize(svg).data;
     const patternSize = getSvgSize(pattern, patternWidth);
     const b64 = convertSvgToBase64(pattern);
@@ -10,7 +10,7 @@ function makePattern(svg, width, height, patternWidth = 500, patternOffset = { x
         height,
     }, patternOffset);
     const generatePattern = coords.map(coord => createImageSvgTag(b64, coord, patternSize));
-    const newSvg = createNewSvg(width, height, generatePattern.join("\n"));
+    const newSvg = createNewSvg(width, height, backgroundColor, generatePattern.join("\n"));
     return svgo_1.optimize(newSvg).data;
 }
 exports.default = makePattern;
@@ -48,7 +48,7 @@ function calcCoords(patternSize, newSvgSize, offset) {
         .flat();
     return coords;
 }
-function createNewSvg(width, height, content) {
+function createNewSvg(width, height, backgroundColor, content) {
     return `
     <svg version="1.1"
       baseProfile="full"
@@ -57,7 +57,7 @@ function createNewSvg(width, height, content) {
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <rect id="rect" width="100%" height="100%" fill="none" />
+        <rect id="rect" width="100%" height="100%" fill="${backgroundColor}" />
         <clipPath id="clip">
             <use xlink:href="#rect"/>
         </clipPath>

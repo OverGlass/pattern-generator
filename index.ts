@@ -15,7 +15,8 @@ export default function makePattern(
   width: number,
   height: number,
   patternWidth: number = 500,
-  patternOffset: coords = { x: 0, y: 0 }
+  patternOffset: coords = { x: 0, y: 0 },
+  backgroundColor: string = "white"
 ) {
   const pattern = optimize(svg).data;
   const patternSize = getSvgSize(pattern, patternWidth);
@@ -34,6 +35,7 @@ export default function makePattern(
   const newSvg = createNewSvg(
     width,
     height,
+    backgroundColor,
     generatePattern.join("\n")
   );
   return optimize(newSvg).data;
@@ -88,6 +90,7 @@ function calcCoords(
 function createNewSvg(
   width: number,
   height: number,
+  backgroundColor: string,
   content: string
 ): string {
   return `
@@ -98,7 +101,7 @@ function createNewSvg(
       xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <rect id="rect" width="100%" height="100%" fill="none" />
+        <rect id="rect" width="100%" height="100%" fill="${backgroundColor}" />
         <clipPath id="clip">
             <use xlink:href="#rect"/>
         </clipPath>
