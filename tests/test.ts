@@ -47,3 +47,4 @@ async function testOne(
 }
 
 testOne("mouth.svg", [300], { x: 50, y: 50 });
+//  makePattern(svg, 1600, 1200, 300, { x: 50, y: 50 });
