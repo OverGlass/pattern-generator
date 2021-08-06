@@ -4,16 +4,28 @@ import { resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 const svg2img = require("svg2img");
 
+type coords = {
+  x: number;
+  y: number;
+};
+
 async function testOne(
   filename: string,
-  density: number[] = [300, 400, 500]
+  density: number[] = [300, 400, 500],
+  offset: coords
 ) {
   const svg = await readFile(
     resolve(__dirname, `./${filename}`),
     "utf8"
   );
   density.forEach((densite, index) => {
-    const pattern = makePattern(svg, 1600, 1200, densite);
+    const pattern = makePattern(
+      svg,
+      1600,
+      1200,
+      densite,
+      offset
+    );
 
     svg2img(
       pattern,
@@ -34,17 +46,4 @@ async function testOne(
   });
 }
 
-async function testAll() {
-  // get all the .svg files in this directory
-  const svgFiles = (
-    await readdir(resolve(__dirname, "./"))
-  ).filter(file => file.endsWith(".svg"));
-  console.log(svgFiles);
-
-  // create a pattern from each file
-  svgFiles.forEach(async file => {
-    testOne(file);
-  });
-}
-
-testOne("nageur_2.svg");
+testOne("mouth.svg", [300], { x: 50, y: 50 });

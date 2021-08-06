@@ -14,15 +14,20 @@ export default function makePattern(
   svg: string,
   width: number,
   height: number,
-  patternWidth: number = 500
+  patternWidth: number = 500,
+  patternOffset: coords = { x: 0, y: 0 }
 ) {
   const pattern = optimize(svg).data;
   const patternSize = getSvgSize(pattern, patternWidth);
   const b64 = convertSvgToBase64(pattern);
-  const coords = calcCoords(patternSize, {
-    width,
-    height,
-  });
+  const coords = calcCoords(
+    patternSize,
+    {
+      width,
+      height,
+    },
+    patternOffset
+  );
   const generatePattern = coords.map(coord =>
     createImageSvgTag(b64, coord, patternSize)
   );
@@ -52,7 +57,8 @@ function convertSvgToBase64(svg: string): string {
 
 function calcCoords(
   patternSize: sizes,
-  newSvgSize: sizes
+  newSvgSize: sizes,
+  offset: coords
 ): coords[] {
   const { width, height } = patternSize;
   const { width: newWidth, height: newHeight } = newSvgSize;
@@ -61,11 +67,14 @@ function calcCoords(
   const coords = [...Array(nbOfRow).keys()]
     .map(y => {
       return [...Array(nbOfColumn).keys()].map(i => ({
-        x: i * width - width / 2 - (i === 0 ? 0 : +1 * i),
+        x:
+          i * width -
+          width / 2 -
+          (i === 0 ? 0 : offset.x * i),
         y:
           y * height -
           height / 2 -
-          (y === 0 ? 0 : +1.5 * y),
+          (y === 0 ? 0 : offset.y * y),
       }));
     })
     .flat();
