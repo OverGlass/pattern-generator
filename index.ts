@@ -61,8 +61,11 @@ function calcCoords(
   const coords = [...Array(nbOfRow).keys()]
     .map(y => {
       return [...Array(nbOfColumn).keys()].map(i => ({
-        x: i * width - width / 2,
-        y: height * y - height / 2,
+        x: i * width - width / 2 - (i === 0 ? 0 : +1 * i),
+        y:
+          y * height -
+          height / 2 -
+          (y === 0 ? 0 : +1.5 * y),
       }));
     })
     .flat();
