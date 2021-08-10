@@ -1,10 +1,10 @@
 {
-  "name": "svg-pattern",
+  "name": "pattern-generator",
   "version": "1.0.0",
   "description": "Take a SVG pattern and repeat it on a new SVG Document",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "git@github.com:OverGlass/svg-pattern.git",
+  "repository": "git@github.com:OverGlass/pattern-generator.git",
   "author": "Antonin Carlin <antonin.carlin@icloud.com>",
   "license": "MIT",
   "scripts": {
