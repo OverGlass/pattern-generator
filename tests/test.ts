@@ -16,8 +16,7 @@ type coords = {
   const date = new Date();
 
   const pattern = makePattern(mouth, 1600, 1200, 500);
-  // @ts-ignore
-  console.log(`${new Date() - date}ms`);
+
   try {
     svg2img(
       pattern,
@@ -39,4 +38,6 @@ type coords = {
   } catch (e) {
     console.log(e);
   }
+  // @ts-ignore
+  console.log(`${new Date() - date}ms`);
 })();

@@ -8,8 +8,8 @@
   "author": "Antonin Carlin <antonin.carlin@icloud.com>",
   "license": "MIT",
   "scripts": {
-    "build": "npx tsc && npx cpx './tests/*.svg' './dist/tests'",
-    "test": "npm run build && node dist/tests/test.js"
+    "build": "npx tsc",
+    "test": "npm run build && npx cpx './tests/*.svg' './dist/tests' && node dist/tests/test.js"
   },
   "devDependencies": {
     "@types/svgo": "^2.3.1",
