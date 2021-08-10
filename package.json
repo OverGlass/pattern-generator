@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@types/node": "^16.4.12",
+    "image-size": "^1.0.0",
     "svg2img": "^0.9.3",
     "svgo": "^2.3.1"
   }

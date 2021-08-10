@@ -9,42 +9,34 @@ type coords = {
   y: number;
 };
 
-async function testOne(
-  filename: string,
-  density: number[] = [300, 400, 500],
-  offset: coords
-) {
-  const svg = await readFile(
-    resolve(__dirname, `./${filename}`),
-    "utf8"
-  );
-  density.forEach((densite, index) => {
-    const pattern = makePattern(
-      svg,
-      1600,
-      1200,
-      densite,
-      offset
-    );
+(async () => {
+  const mouth = resolve(__dirname, "./camo_enfant_1.svg");
+  const wolf = resolve(__dirname, "./n121.image.01.png");
 
+  const date = new Date();
+
+  const pattern = makePattern(mouth, 1600, 1200, 500);
+  // @ts-ignore
+  console.log(`${new Date() - date}ms`);
+  try {
     svg2img(
       pattern,
-      { width: 1600, height: 1200 },
-      function (err: any, img: any) {
-        writeFile(
-          resolve(
-            __dirname,
-            `./generateSvgs/jpg/${filename.slice(
-              0,
-              filename.length - 4
-            )}_densite-${index + 1}.jpg`
-          ),
-          img
-        );
+      {
+        width: 1600,
+        height: 1200,
+      },
+      async (err: any, img: any) => {
+        try {
+          await writeFile(
+            resolve(__dirname, `./test.jpg`),
+            img
+          );
+        } catch (e) {
+          console.log(err, e);
+        }
       }
     );
-  });
-}
-
-testOne("mouth.svg", [300], { x: 50, y: 50 });
-//  makePattern(svg, 1600, 1200, 300, { x: 50, y: 50 });
+  } catch (e) {
+    console.log(e);
+  }
+})();
