@@ -15,7 +15,9 @@ type coords = {
 
   const date = new Date();
 
-  const pattern = makePattern(mouth, 1600, 1200, 500);
+  const pattern = makePattern(mouth, 1600, 1200, {
+    patternWidth: 500,
+  });
 
   try {
     svg2img(

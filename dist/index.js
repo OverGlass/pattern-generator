@@ -3,16 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const svgo_1 = require("svgo");
 const image_size_1 = require("image-size");
 const fs_1 = require("fs");
-function makePattern(path, width, height, patternWidth = 500, patternOffset = { x: 0, y: 0 }, backgroundColor = "#fff") {
-    const patternSize = getImageSize(path, patternWidth);
+const defaultOptions = {
+    patternWidth: 500,
+    patternOffset: { x: 0, y: 0 },
+    backgroundColor: "#fff",
+};
+function makePattern(path, width, height, options = defaultOptions) {
+    const opt = { ...defaultOptions, ...options };
+    const patternSize = getImageSize(path, opt.patternWidth);
     const coords = calcCoords(patternSize, {
         width,
         height,
-    }, patternOffset);
+    }, opt.patternOffset);
     const isSvg = path.slice(path.length - 3, path.length) === "svg";
     const href = isSvg ? convertSvgToBase64(path) : path;
     const generatePattern = coords.map(coord => createImageSvgTag(href, coord, patternSize));
-    const newSvg = createNewSvg(width, height, backgroundColor, generatePattern.join("\n"));
+    const newSvg = createNewSvg(width, height, opt.backgroundColor, generatePattern.join("\n"));
     return svgo_1.optimize(newSvg).data;
 }
 exports.default = makePattern;

@@ -12,22 +12,33 @@ type coords = {
   y: number;
 };
 
+type options = {
+  patternWidth?: number;
+  patternOffset?: coords;
+  backgroundColor?: string;
+};
+
+const defaultOptions = {
+  patternWidth: 500,
+  patternOffset: { x: 0, y: 0 },
+  backgroundColor: "#fff",
+};
+
 export default function makePattern(
   path: string,
   width: number,
   height: number,
-  patternWidth: number = 500,
-  patternOffset: coords = { x: 0, y: 0 },
-  backgroundColor: string = "#fff"
+  options: options = defaultOptions
 ) {
-  const patternSize = getImageSize(path, patternWidth);
+  const opt = { ...defaultOptions, ...options };
+  const patternSize = getImageSize(path, opt.patternWidth);
   const coords = calcCoords(
     patternSize,
     {
       width,
       height,
     },
-    patternOffset
+    opt.patternOffset
   );
   const isSvg =
     path.slice(path.length - 3, path.length) === "svg";
@@ -38,7 +49,7 @@ export default function makePattern(
   const newSvg = createNewSvg(
     width,
     height,
-    backgroundColor,
+    opt.backgroundColor,
     generatePattern.join("\n")
   );
   return optimize(newSvg).data;
