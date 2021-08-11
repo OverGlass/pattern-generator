@@ -2,17 +2,17 @@ import { optimize } from "svgo";
 import sizeOf from "image-size";
 import { readFileSync } from "fs";
 
-type sizes = {
+export type sizes = {
   width: number;
   height: number;
 };
 
-type coords = {
+export type coords = {
   x: number;
   y: number;
 };
 
-type options = {
+export type options = {
   patternWidth?: number;
   patternOffset?: coords;
   backgroundColor?: string;
