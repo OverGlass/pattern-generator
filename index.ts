@@ -44,13 +44,17 @@ export default function makePattern(
     path.slice(path.length - 3, path.length) === "svg";
   const href = isSvg ? convertSvgToBase64(path) : path;
   const generatePattern = coords.map(coord =>
-    createImageSvgTag(href, coord, patternSize)
+    createImageSvgTag(coord)
   );
   const newSvg = createNewSvg(
     width,
     height,
     opt.backgroundColor,
-    generatePattern.join("\n")
+    generatePattern.join("\n"),
+    {
+      path: href,
+      sizes: patternSize,
+    }
   );
   return optimize(newSvg).data;
 }
@@ -99,7 +103,11 @@ function createNewSvg(
   width: number,
   height: number,
   backgroundColor: string,
-  content: string
+  content: string,
+  patternParams: {
+    path: string;
+    sizes: sizes;
+  }
 ): string {
   return `
     <svg version="1.1"
@@ -113,6 +121,11 @@ function createNewSvg(
         <clipPath id="clip">
             <use xlink:href="#rect"/>
         </clipPath>
+        <image
+          id="pattern"
+          width="${patternParams.sizes.width}"
+          height="${patternParams.sizes.height}"
+          href="${patternParams.path}"/>
       </defs>
       <use xlink:href="#rect"/>
       <g clip-path="url(#clip)">
@@ -123,18 +136,13 @@ function createNewSvg(
   `;
 }
 
-function createImageSvgTag(
-  path: string,
-  coords: coords,
-  sizes: sizes
-) {
+function createImageSvgTag(coords: coords) {
   return `
-      <image
+      <use
+        xlink:href="#pattern"
         x="${coords.x}"
         y="${coords.y}"
-        width="${sizes.width}"
-        height="${sizes.height}"
-        href="${path}"/>
+      />
   `;
 }
 
