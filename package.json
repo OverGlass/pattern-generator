@@ -1,6 +1,6 @@
 {
   "name": "pattern-generator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Take a SVG pattern and repeat it on a new SVG Document",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
