@@ -6,6 +6,7 @@ const fs_1 = require("fs");
 const defaultOptions = {
     patternWidth: 500,
     patternOffset: { x: 0, y: 0 },
+    patternFileType: undefined,
     backgroundColor: "#fff",
 };
 function makePattern(path, width, height, options = defaultOptions) {
@@ -15,8 +16,10 @@ function makePattern(path, width, height, options = defaultOptions) {
         width,
         height,
     }, opt.patternOffset);
-    const isSvg = path.slice(path.length - 3, path.length) === "svg";
-    const href = isSvg ? convertSvgToBase64(path) : path;
+    const ext = opt.patternFileType || path.split(".").pop();
+    if (!ext)
+        throw Error("Cannot get file extension");
+    const href = convertSvgToBase64(path, ext === "svg" ? "svg+xml" : ext);
     const generatePattern = coords.map(coord => createImageSvgTag(coord));
     const newSvg = createNewSvg(width, height, opt.backgroundColor, generatePattern.join("\n"), {
         path: href,
@@ -89,9 +92,9 @@ function createImageSvgTag(coords) {
       />
   `;
 }
-function convertSvgToBase64(svg) {
+function convertSvgToBase64(svg, mimeType) {
     const svgF = fs_1.readFileSync(svg, "utf-8");
     const b64 = Buffer.from(svgF).toString("base64");
-    return `data:image/svg+xml;base64,${b64}`;
+    return `data:image/${mimeType};base64,${b64}`;
 }
 //# sourceMappingURL=index.js.map

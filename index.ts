@@ -15,12 +15,14 @@ export type coords = {
 export type options = {
   patternWidth?: number;
   patternOffset?: coords;
+  patternFileType?: string;
   backgroundColor?: string;
 };
 
 const defaultOptions = {
   patternWidth: 500,
   patternOffset: { x: 0, y: 0 },
+  patternFileType: undefined,
   backgroundColor: "#fff",
 };
 
@@ -40,9 +42,12 @@ export default function makePattern(
     },
     opt.patternOffset
   );
-  const isSvg =
-    path.slice(path.length - 3, path.length) === "svg";
-  const href = isSvg ? convertSvgToBase64(path) : path;
+  const ext = opt.patternFileType || path.split(".").pop();
+  if (!ext) throw Error("Cannot get file extension");
+  const href = convertSvgToBase64(
+    path,
+    ext === "svg" ? "svg+xml" : ext
+  );
   const generatePattern = coords.map(coord =>
     createImageSvgTag(coord)
   );
@@ -146,8 +151,8 @@ function createImageSvgTag(coords: coords) {
   `;
 }
 
-function convertSvgToBase64(svg: string) {
+function convertSvgToBase64(svg: string, mimeType: string) {
   const svgF = readFileSync(svg, "utf-8");
   const b64 = Buffer.from(svgF).toString("base64");
-  return `data:image/svg+xml;base64,${b64}`;
+  return `data:image/${mimeType};base64,${b64}`;
 }

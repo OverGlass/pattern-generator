@@ -9,6 +9,7 @@ export declare type coords = {
 export declare type options = {
     patternWidth?: number;
     patternOffset?: coords;
+    patternFileType?: string;
     backgroundColor?: string;
 };
 export default function makePattern(path: string, width: number, height: number, options?: options): string;

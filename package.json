@@ -12,13 +12,14 @@
     "test": "npm run build && npx cpx './tests/*.svg' './dist/tests' && node dist/tests/test.js"
   },
   "devDependencies": {
-    "@types/svgo": "^2.3.1",
     "@types/node": "^16.4.12",
+    "@types/svgo": "^2.3.1",
     "cpx": "^1.5.0",
-    "typescript": "^4.3.5",
-    "svg2img": "^0.9.3"
+    "svg2img": "^0.9.3",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
+    "detect-file-type": "^0.2.8",
     "image-size": "^1.0.0",
     "svgo": "^2.3.1"
   }
