@@ -17,9 +17,14 @@ type coords = {
 
   const pattern = makePattern(mouth, 1600, 1200, {
     patternWidth: 500,
+    patternFileType: "svg",
   });
 
   try {
+    await writeFile(
+      resolve(__dirname, `./test.svg`),
+      pattern
+    );
     svg2img(
       pattern,
       {
